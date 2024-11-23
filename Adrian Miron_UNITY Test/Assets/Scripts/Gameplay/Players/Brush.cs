@@ -18,6 +18,7 @@ public class Brush : MonoBehaviour
     [Range(0,1)]
     public float                m_DarkenValue;
 	public MovingEffect         m_MovingEffect;
+	public BumpEffect			m_BumpEffect;
 	public GameObject           m_Arrow;
 
 	// Cache
@@ -138,6 +139,12 @@ public class Brush : MonoBehaviour
         }
 
         m_ModelTr.gameObject.SetActive(true);
+	}
+
+	public void Bump()
+	{
+		var bumpEffect = Instantiate(m_BumpEffect, transform.position, Quaternion.identity);
+		bumpEffect.Play();
 	}
 
 	private IEnumerator BlinkCoroutine()

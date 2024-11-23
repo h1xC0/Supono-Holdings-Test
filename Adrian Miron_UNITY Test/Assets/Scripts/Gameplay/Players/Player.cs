@@ -1,5 +1,6 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 
 public abstract class Player : MappedObject, IDrawLine
@@ -21,6 +22,7 @@ public abstract class Player : MappedObject, IDrawLine
     private const float         c_MaxForce = 250.0f;
 	private const float         c_NearEdgeDistance = 6.0f;
 	private const float			c_FragTimeout = 1.0f;
+	private const float 		c_BouncePower = 2.5f;
 
 	private enum EBonus
 	{
@@ -272,10 +274,11 @@ public abstract class Player : MappedObject, IDrawLine
 		float size = GetSize () * 1.2f + 4f;
 
 		ComputeSubCollisions(m_Transform.position, size);
+		ComputeCollisionBounce(transform.position, new Vector3(2, 6, 1.15f), transform.rotation);
 		for (int i = 0; i < m_BrushesFollowing.Count; ++i)
 		{
 			ComputeSubCollisions(m_BrushesFollowing[i].transform.position, size);
-		}      
+		} 
 	}
 
     private void ComputeSubCollisions(Vector3 center, float size)
@@ -292,6 +295,48 @@ public abstract class Player : MappedObject, IDrawLine
                 GetPowerUp(powerUp);
         }
 	}
+
+	private void ComputeCollisionBounce(Vector3 center, Vector3 extents, Quaternion rotation)
+	{
+		if(isDead)
+			return;
+
+		var players = Physics
+			.OverlapBox(center, extents, rotation)
+			.Select(other => other.transform.root.GetComponent<Player>())
+			.Where(player => player != null)
+			.ToList();
+			
+		if(players.Count <= 1)
+			return;
+
+		foreach(var player in players)
+		{
+			var otherCollider = player.GetComponentInChildren<Collider>();
+			StartCoroutine(MoveBackward(player, otherCollider));
+			player.m_Brush.Bump();
+		}
+	}
+
+	private IEnumerator MoveBackward(Player player, Collider collider)
+    {
+        float elapsedTime = 0;
+        float waitTime = 0.25f;
+		
+		collider.enabled = false;
+		while (elapsedTime < waitTime)
+		{
+			player.transform.position += -player.transform.forward * c_BouncePower;
+			m_Speed = Mathf.Lerp(m_Speed, c_MinSpeed, elapsedTime / waitTime);
+			elapsedTime += Time.deltaTime;
+
+			yield return null;
+		}  
+
+		collider.enabled = true;
+		yield return null;
+    }
+
 
     protected virtual void Kill(Player _Player)
     {
@@ -525,7 +570,7 @@ public abstract class Player : MappedObject, IDrawLine
 
 	public virtual bool IsMoving()
     {
-        return (true);
+        return true;
     }
 
     public virtual void Remove()
