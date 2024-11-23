@@ -1,5 +1,6 @@
 ﻿using UnityEngine;
 using System.Collections.Generic;
+using Gameplay.UI;
 
 public enum GamePhase
 {
@@ -53,6 +54,7 @@ public class GameManager : SingletonMB<GameManager>
     private StatsManager m_StatsManager;
     private ProgressionView m_ProgressionView;
     private MainMenuView m_MainMenuView;
+    private SkinSelectionView m_SkinSelectionView;
     private BattleRoyaleManager m_BattleRoyaleManager;
     private TerrainManager m_TerrainManager;
 
@@ -95,6 +97,7 @@ public class GameManager : SingletonMB<GameManager>
         m_StatsManager = StatsManager.Instance;
         m_ProgressionView = ProgressionView.Instance;
         m_MainMenuView = MainMenuView.Instance;
+        m_SkinSelectionView = SkinSelectionView.Instance;
         m_BattleRoyaleManager = BattleRoyaleManager.Instance;
         m_SpotlightOffset = m_HumanSpotlight.position;
 
@@ -151,6 +154,7 @@ public class GameManager : SingletonMB<GameManager>
         Color humanColor = m_Colors[colorIndex];
         RVEndView.Instance.SetTitleColor(humanColor);
         m_MainMenuView.SetTitleColor(humanColor);
+        m_SkinSelectionView.SetMainColor(humanColor);
         LoadingView.Instance.SetTitleColor(humanColor);
     }
 

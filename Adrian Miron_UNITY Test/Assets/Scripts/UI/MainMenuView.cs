@@ -1,5 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
+using Gameplay.UI;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -20,17 +20,32 @@ public class MainMenuView : View<MainMenuView>
     public GameObject m_PointsPerRank;
     public RankingView m_RankingView;
 
+    [SerializeField] private Button m_SkinSelectionButton;
+
     [Header("Ranks")]
     public string[] m_Ratings;
 
     private StatsManager m_StatsManager;
+    [SerializeField] private List<GameObject> _itemToHide;
+    private SkinSelectionView m_SkinSelectionView;
 
     protected override void Awake()
     {
         base.Awake();
 
         m_StatsManager = StatsManager.Instance;
+        m_SkinSelectionView = SkinSelectionView.Instance;
         m_IdSkin = m_StatsManager.FavoriteSkin;
+
+        m_SkinSelectionButton.onClick.AddListener(OnSkinSelectionButtonClicked);
+    }
+
+    public void ShowSkinsButton()
+    {
+        foreach (var item in _itemToHide)
+        {
+            item.gameObject.SetActive(true);
+        }
     }
 
     public void OnPlayButton()
@@ -117,5 +132,14 @@ public class MainMenuView : View<MainMenuView>
         m_BrushesPrefab.GetComponent<BrushMainMenu>().Set(GameManager.Instance.m_Skins[favoriteSkin]);
         m_StatsManager.FavoriteSkin = m_IdSkin;
         GameManager.Instance.SetColor(GameManager.Instance.ComputeCurrentPlayerColor(true, 0));
+    }
+
+    private void OnSkinSelectionButtonClicked()
+    {
+        m_SkinSelectionView.ShowSkins();
+          foreach (var item in _itemToHide)
+        {
+            item.gameObject.SetActive(false);
+        }
     }
 }
