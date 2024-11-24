@@ -1,0 +1,11 @@
+"Glass of Water Powerup" feature will work in that way:
+ - Human or AI player touches the glass of water powerup
+ - From the center of the touched powerup will fill with white color at a big radius
+ - All previously existed painted pixels will be erased and this area will be free to be painted
+
+Why will "Glass of Water" feature work?
+
+Emotional Engagement: Players always love risk/reward. They will come back time and time again to try to use the glass to their advantage, despite the risk of losing.
+Competitive Element: This mechanic forces players to interact not only with the powerup, but also with each other, trying to use the "glass of water" as a weapon. 
+
+Players will have to decide whether to take the risk of picking up the glass when a drop could wipe off their paint, too. This creates a dilemma that always keeps players engaged.
