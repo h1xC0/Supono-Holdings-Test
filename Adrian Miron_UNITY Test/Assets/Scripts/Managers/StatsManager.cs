@@ -1,6 +1,6 @@
 ﻿using UnityEngine;
 using System.Collections.Generic;
-using System.Text;
+using System;
 
 public class StatsManager : SingletonMB<StatsManager>
 {
@@ -11,13 +11,51 @@ public class StatsManager : SingletonMB<StatsManager>
     {
         get
         {
-            return (PlayerPrefs.GetInt("FavoriteSkin", 0));
+            return PlayerPrefs.GetInt("FavoriteSkin", 0);
         }
         set
         {
             PlayerPrefs.SetInt("FavoriteSkin", value);
         }
     }
+
+	public int Money
+	{
+		get
+		{
+			return PlayerPrefs.GetInt("Money", 0);
+		}
+		set
+		{
+			PlayerPrefs.SetInt("Money", value);
+		}
+	}
+
+	public int Day
+	{
+		get
+		{
+			return PlayerPrefs.GetInt("Day", 0);
+		}
+		set
+		{
+			PlayerPrefs.SetInt("Day", value);
+		}
+	}
+
+	public string LastClaimTime
+	{
+		get
+		{
+			return PlayerPrefs.GetString("LastClaimTime", DateTime.MinValue.ToString());
+		}
+		set
+		{
+			PlayerPrefs.SetString("LastClaimTime", value);
+		}
+	}
+
+
 
     private int GetGameResult(int _Index)
 	{
@@ -164,7 +202,7 @@ public class StatsManager : SingletonMB<StatsManager>
 		float percent = _Curve.Evaluate(level / ((float)_MaxLevel));
 		float minValue = Mathf.Lerp(_FirstMin, _SecondMin, _Curve.Evaluate(percent));
 		float maxValue = Mathf.Lerp(_FirstMax, _SecondMax, _Curve.Evaluate(percent));
-		return Random.Range(minValue, maxValue);
+		return UnityEngine.Random.Range(minValue, maxValue);
 	}
 
 	#endregion

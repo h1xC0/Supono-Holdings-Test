@@ -55,6 +55,7 @@ public class GameManager : SingletonMB<GameManager>
     private ProgressionView m_ProgressionView;
     private MainMenuView m_MainMenuView;
     private SkinSelectionView m_SkinSelectionView;
+    private DailyRewardView m_DailyRewardView;
     private BattleRoyaleManager m_BattleRoyaleManager;
     private TerrainManager m_TerrainManager;
 
@@ -98,6 +99,7 @@ public class GameManager : SingletonMB<GameManager>
         m_ProgressionView = ProgressionView.Instance;
         m_MainMenuView = MainMenuView.Instance;
         m_SkinSelectionView = SkinSelectionView.Instance;
+        m_DailyRewardView = DailyRewardView.Instance;
         m_BattleRoyaleManager = BattleRoyaleManager.Instance;
         m_SpotlightOffset = m_HumanSpotlight.position;
 
@@ -155,6 +157,7 @@ public class GameManager : SingletonMB<GameManager>
         RVEndView.Instance.SetTitleColor(humanColor);
         m_MainMenuView.SetTitleColor(humanColor);
         m_SkinSelectionView.SetMainColor(humanColor);
+        m_DailyRewardView.SetMainColor(humanColor);
         LoadingView.Instance.SetTitleColor(humanColor);
     }
 

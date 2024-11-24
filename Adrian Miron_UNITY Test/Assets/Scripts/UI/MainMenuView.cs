@@ -42,10 +42,7 @@ public class MainMenuView : View<MainMenuView>
 
     public void ShowSkinsButton()
     {
-        foreach (var item in _itemToHide)
-        {
-            item.gameObject.SetActive(true);
-        }
+        Transition(true);
     }
 
     public void OnPlayButton()
@@ -137,9 +134,6 @@ public class MainMenuView : View<MainMenuView>
     private void OnSkinSelectionButtonClicked()
     {
         m_SkinSelectionView.ShowSkins();
-          foreach (var item in _itemToHide)
-        {
-            item.gameObject.SetActive(false);
-        }
+        Transition(false);
     }
 }

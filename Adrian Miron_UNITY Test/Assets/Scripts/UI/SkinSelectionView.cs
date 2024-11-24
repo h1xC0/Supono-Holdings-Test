@@ -1,4 +1,6 @@
+using System;
 using System.Collections.Generic;
+using System.Threading.Tasks;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -61,6 +63,7 @@ namespace Gameplay.UI
 
         public void ShowSkins()
         {
+            Transition(true);
             foreach (var item in _itemsToShow)
             {
                 item.SetActive(true);
@@ -117,8 +120,12 @@ namespace Gameplay.UI
             ChangeBrush(skinItemView.SkinID);
         }
 
-        private void OnBack()
+        private async void OnBack()
         {
+            Transition(false);
+            
+            var durationToMS = TimeSpan.FromSeconds(m_FadeOutDuration);
+            await Task.Delay((int)durationToMS.TotalMilliseconds);
             foreach(var item in _itemsToShow)
             {
                 item.SetActive(false);
