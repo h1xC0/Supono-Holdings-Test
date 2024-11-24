@@ -7,7 +7,8 @@ public class PlayerArrows : SingletonMB<PlayerArrows>
     public enum EArrowType
 	{
 		BUCKET,
-        BRUSH
+        BRUSH,
+        GLASS
 	}
 
 	public class ArrowRef
@@ -18,6 +19,7 @@ public class PlayerArrows : SingletonMB<PlayerArrows>
 
     public GameObject 			m_BucketArrowPrefab;
 	public GameObject           m_BrushArrowPrefab;
+    public GameObject           m_GlassArrowPrefab;
     public float 				m_ArrowDistance;
 
     private List<ArrowRef> 		m_Refs = new List<ArrowRef>();
@@ -110,6 +112,9 @@ public class PlayerArrows : SingletonMB<PlayerArrows>
 			case EArrowType.BRUSH:
 				m_ArrowPrefab = m_BrushArrowPrefab;
 				break;
+            case EArrowType.GLASS:
+                m_ArrowPrefab = m_GlassArrowPrefab;
+                break;
 			case EArrowType.BUCKET:
 			default:
 				m_ArrowPrefab = m_BucketArrowPrefab;

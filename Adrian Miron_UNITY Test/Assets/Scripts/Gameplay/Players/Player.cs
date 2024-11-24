@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using Gameplay.UI;
 using UnityEngine;
 
 public abstract class Player : MappedObject, IDrawLine
@@ -266,7 +267,6 @@ public abstract class Player : MappedObject, IDrawLine
 	protected void ClampPosition(ref Vector3 _Position)
     {
 		TerrainManager.Instance.ClampPosition(ref _Position, GetSize() / 1.5f);
-        
     }
 
 	private void ComputeCollisions()
@@ -274,7 +274,10 @@ public abstract class Player : MappedObject, IDrawLine
 		float size = GetSize () * 1.2f + 4f;
 
 		ComputeSubCollisions(m_Transform.position, size);
-		ComputeCollisionBounce(transform.position, new Vector3(2, 6, 1.15f), transform.rotation);
+
+		if(DebugMenuView.Instance.PlayerCollisionFeature)
+			ComputeCollisionBounce(transform.position, new Vector3(2, 6, 1.15f), transform.rotation);
+			
 		for (int i = 0; i < m_BrushesFollowing.Count; ++i)
 		{
 			ComputeSubCollisions(m_BrushesFollowing[i].transform.position, size);

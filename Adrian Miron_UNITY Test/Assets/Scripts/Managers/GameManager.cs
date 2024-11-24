@@ -1,6 +1,7 @@
 ﻿using UnityEngine;
 using System.Collections.Generic;
 using Gameplay.UI;
+using System.Linq;
 
 public enum GamePhase
 {
@@ -54,6 +55,7 @@ public class GameManager : SingletonMB<GameManager>
     private StatsManager m_StatsManager;
     private ProgressionView m_ProgressionView;
     private MainMenuView m_MainMenuView;
+    private DebugMenuView m_DebugMenuView;
     private SkinSelectionView m_SkinSelectionView;
     private DailyRewardView m_DailyRewardView;
     private BattleRoyaleManager m_BattleRoyaleManager;
@@ -97,6 +99,7 @@ public class GameManager : SingletonMB<GameManager>
         // Cache
         m_StatsManager = StatsManager.Instance;
         m_ProgressionView = ProgressionView.Instance;
+        m_DebugMenuView = DebugMenuView.Instance;
         m_MainMenuView = MainMenuView.Instance;
         m_SkinSelectionView = SkinSelectionView.Instance;
         m_DailyRewardView = DailyRewardView.Instance;
@@ -134,7 +137,10 @@ public class GameManager : SingletonMB<GameManager>
             new Vector3 (halfWidth - c_PopPointPadding - c_PopPointTeamPadding, 0.0f, halfHeight - c_PopPointPadding + c_PopPointTeamPadding),
         };
 
-        m_PowerUps = new List<PowerUpData>(Resources.LoadAll<PowerUpData>("PowerUps"));
+        var powerUps = m_DebugMenuView.CustomFeature ? Resources.LoadAll<PowerUpData>("PowerUps") 
+        : Resources.LoadAll<PowerUpData>("PowerUps").Where(powerUp => powerUp.m_Debug == false);
+
+        m_PowerUps = new List<PowerUpData>(powerUps);
     }
 
     void Start()

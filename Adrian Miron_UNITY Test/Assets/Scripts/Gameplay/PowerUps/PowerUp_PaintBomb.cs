@@ -23,7 +23,6 @@ public sealed class PowerUp_PaintBomb : PowerUp
 
 	public override void OnPlayerTouched (Player _Player)
 	{
-
         m_RadiusMultiplier = Mathf.Clamp(_Player.GetSize() / _Player.GetMinSize(), 1f, 2.5f);
 		UnregisterMap();
         m_Model.enabled = false;

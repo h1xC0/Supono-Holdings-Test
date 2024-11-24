@@ -32,6 +32,9 @@ namespace Gameplay.UI
         {
             base.Awake();
             
+            if(DebugMenuView.Instance.DailyRewardFeature == false)
+                return;
+
             _rewards = new List<RewardItemView>();
             _statsManager = StatsManager.Instance;
             _claimRewardButton.onClick.AddListener(() => OnClaimReward());
@@ -44,6 +47,9 @@ namespace Gameplay.UI
 
         public void SetMainColor(Color _Color)
         {
+            if(DebugMenuView.Instance.DailyRewardFeature == false)
+                return;
+
             for (int i = 0; i < m_ColoredImages.Count; ++i)
                 m_ColoredImages[i].color = _Color;
 

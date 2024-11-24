@@ -21,12 +21,12 @@ public class MainMenuView : View<MainMenuView>
     public RankingView m_RankingView;
 
     [SerializeField] private Button m_SkinSelectionButton;
+    [SerializeField] private GameObject m_BrushSelect;
 
     [Header("Ranks")]
     public string[] m_Ratings;
 
     private StatsManager m_StatsManager;
-    [SerializeField] private List<GameObject> _itemToHide;
     private SkinSelectionView m_SkinSelectionView;
 
     protected override void Awake()
@@ -36,13 +36,27 @@ public class MainMenuView : View<MainMenuView>
         m_StatsManager = StatsManager.Instance;
         m_SkinSelectionView = SkinSelectionView.Instance;
         m_IdSkin = m_StatsManager.FavoriteSkin;
+    }
 
-        m_SkinSelectionButton.onClick.AddListener(OnSkinSelectionButtonClicked);
+    public void SetBrushSelectionType(bool newBrushFlag)
+    {
+        if(newBrushFlag)
+        {
+            m_SkinSelectionButton.onClick.AddListener(OnSkinSelectionButtonClicked);
+            m_BrushSelect.SetActive(false);
+            m_SkinSelectionButton.gameObject.SetActive(true);
+        }
+        else
+        {
+            m_BrushSelect.SetActive(true);
+            m_SkinSelectionButton.gameObject.SetActive(false);
+        }
     }
 
     public void ShowSkinsButton()
     {
         Transition(true);
+        DebugMenuView.Instance.HideOnSkinSelection(false);
     }
 
     public void OnPlayButton()
@@ -134,6 +148,7 @@ public class MainMenuView : View<MainMenuView>
     private void OnSkinSelectionButtonClicked()
     {
         m_SkinSelectionView.ShowSkins();
+        DebugMenuView.Instance.HideOnSkinSelection(true);
         Transition(false);
     }
 }

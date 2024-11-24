@@ -6,5 +6,6 @@ using UnityEngine;
 public class PowerUpData : ScriptableObject
 {
 	public int 			m_Probability = 1;
+	public bool m_Debug;
 	public GameObject 	m_Prefab;
 }

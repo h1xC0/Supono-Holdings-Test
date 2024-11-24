@@ -124,6 +124,11 @@ public class TerrainManager : SingletonMB<TerrainManager>
         StartCoroutine(FillCoroutine(_Player, _Pos, _Radius, _Duration, _EndCallback));
     }
 
+	public void FillEmptyCircle(Vector3 _Pos, float _Radius, float _Duration, UnityAction _EndCallback = null)
+	{
+		StartCoroutine(FillEmptyCoroutine(_Pos, _Radius, _Duration, _EndCallback));
+	}
+
     public IEnumerator FillCoroutine(Player _Player, Vector3 _Pos, float _Radius, float _Duration, UnityAction _EndCallback)
     {
 		Color color = _Player.m_Color;
@@ -133,7 +138,24 @@ public class TerrainManager : SingletonMB<TerrainManager>
         while (time < 1.0f)
         {
             time += Time.deltaTime / _Duration;
-            this.AddCircle(_Pos, m_DefaultFillCurve.Evaluate(time) * _Radius, colorHash, ref color);
+            AddCircle(_Pos, m_DefaultFillCurve.Evaluate(time) * _Radius, colorHash, ref color);
+            yield return null;
+        }
+
+        if (_EndCallback != null)
+            _EndCallback.Invoke();
+    }
+
+	private IEnumerator FillEmptyCoroutine(Vector3 _Pos, float _Radius, float _Duration, UnityAction _EndCallback)
+    {
+		Color color = Color.white;
+		int colorHash = PaintSurface.GetColorHash(color);
+
+        float time = 0.0f;
+        while (time < 1.0f)
+        {
+            time += Time.deltaTime / _Duration;
+            AddCircle(_Pos, m_DefaultFillCurve.Evaluate(time) * _Radius, colorHash, ref color);
             yield return null;
         }
 
